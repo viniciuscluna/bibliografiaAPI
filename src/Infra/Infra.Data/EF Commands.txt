@@ -1,0 +1,4 @@
+﻿dotnet ef database update --context NameProjectContext  --startup-project src/Services/NameProject.API --project src/Infra/Infra.Data
+
+
+dotnet ef migrations add "InitialMigration"  --context NameProjectContext  --startup-project src/Services/NameProject.API --project src/Infra/Infra.Data
