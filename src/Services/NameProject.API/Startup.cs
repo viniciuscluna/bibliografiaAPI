@@ -13,6 +13,8 @@ namespace NameProject.API
 {
     public class Startup
     {
+        const string CORS_POLICY_NAME = "CorsPolicy";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -29,6 +31,16 @@ namespace NameProject.API
             services.AddDbContext<NameProjectContext>(options =>
                 options.UseSqlite(connection)
             );
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(CORS_POLICY_NAME, builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+            });
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<INameConstructorService, NameContructorService>();
@@ -49,7 +61,7 @@ namespace NameProject.API
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseCors(CORS_POLICY_NAME);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
